@@ -9,6 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class HealthStatus extends Actor
 {
     GreenfootImage healthStatus;
+    //Dungeon dungeon = (Dungeon)getWorld();
+    //Hero hero = dungeon.getHero();
     Hero hero;
     
     public HealthStatus(Hero _hero)
@@ -18,7 +20,7 @@ public class HealthStatus extends Actor
     
     public void act() 
     {
-        updateHealthStatus(hero.getHealth());
+        updateHealthStatus(hero.health);
     }
     
     void updateHealthStatus(int _health)

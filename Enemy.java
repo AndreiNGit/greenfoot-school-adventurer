@@ -8,11 +8,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Enemy extends Actor
 {
-    protected int speed;
-    protected int health;
-    protected int damage;
-    protected int attackSpeed;
-    protected static int frameCounter = 0;
+    int speed;
+    int health;
+    int damage;
+    int attackSpeed;
+    static int counterFrame;
     
     public void act() 
     {
