@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=HealthStatus
+comment0.text=\n\ Write\ a\ description\ of\ class\ HealthStatus\ here.\n\ \n\ @author\ Andrei\ Nicusor\n\ @version\ 1.2\n
+comment1.params=_hero
+comment1.target=HealthStatus(Hero)
+comment2.params=
+comment2.target=void\ act()
+comment3.params=_health
+comment3.target=void\ updateHealthStatus(int)
+numComments=4

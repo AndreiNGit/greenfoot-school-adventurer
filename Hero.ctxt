@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Hero
+comment0.text=\n\ Write\ a\ description\ of\ class\ Hero\ here.\n\ \n\ @author\ Andrei\ Nicusor\n\ @version\ 1.5\n
+comment1.params=
+comment1.target=Hero()
+comment2.params=
+comment2.target=void\ act()
+comment3.params=
+comment3.target=void\ move()
+comment4.params=
+comment4.target=void\ MeleeAttack()
+comment5.params=
+comment5.target=void\ gameOver()
+numComments=6
