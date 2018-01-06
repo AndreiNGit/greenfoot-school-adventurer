@@ -8,11 +8,11 @@ import java.lang.String;
  */
 public class Hero extends Actor
 {
-    int speed;
-    int health;
-    int damage;
-    int attackSpeed;
-    static int frameCounter = 0;
+    private int speed;
+    private int health;
+    private int damage;
+    private int attackSpeed;
+    private static int frameCounter = 0;
     
     public Hero()
     {
@@ -22,12 +22,21 @@ public class Hero extends Actor
         attackSpeed = 50;
     }
     
+    public int getHealth()
+    {
+        return health;
+    }
+    
+    public void setHealth(int _var)
+    {
+        health = _var;
+    }
     
     public void act() 
     {
         //for testing
-        System.out.println("health: " + health);
-        System.out.println("frame: " + frameCounter);
+        //System.out.println("health: " + health);
+        //System.out.println("frame: " + frameCounter);
         //for testing
         
         frameCounter++;
@@ -41,6 +50,7 @@ public class Hero extends Actor
         if(Greenfoot.isKeyDown("up"))
         {
             setLocation(getX(), getY() - speed);
+            //move(speed);
         }
         if(Greenfoot.isKeyDown("down"))
         {

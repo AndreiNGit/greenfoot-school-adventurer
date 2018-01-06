@@ -18,6 +18,6 @@ public class RangeEnemy extends Enemy
     
     public void act() 
     {
-        System.out.println("RangeEnemy health:" + health);
+        //System.out.println("RangeEnemy health:" + health);
     }
 }
