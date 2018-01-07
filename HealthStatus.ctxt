@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=HealthStatus
-comment0.text=\n\ Write\ a\ description\ of\ class\ HealthStatus\ here.\n\ \n\ @author\ Andrei\ Nicusor\n\ @version\ 1.2\n
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ HealthStatus\ here.\r\n\ \r\n\ @author\ Andrei\ Nicusor\r\n\ @version\ 1.2\r\n
 comment1.params=_hero
 comment1.target=HealthStatus(Hero)
 comment2.params=

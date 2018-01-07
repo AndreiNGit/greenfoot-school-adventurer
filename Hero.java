@@ -6,14 +6,8 @@ import java.lang.String;
  * @author Andrei Nicusor
  * @version 1.5
  */
-public class Hero extends Actor
+public class Hero extends Character
 {
-    int speed;
-    int health;
-    int damage;
-    int attackSpeed;
-    static int frameCounter = 0;
-    
     public Hero()
     {
         speed = 2;
@@ -22,15 +16,23 @@ public class Hero extends Actor
         attackSpeed = 50;
     }
     
+    public int getHealth()
+    {
+        return health;
+    }
+    
+    public void setHealth(int _var)
+    {
+        health = _var;
+    }
     
     public void act() 
     {
+        frameCounter++;
         //for testing
-        System.out.println("health: " + health);
+        //System.out.println("health: " + health);
         System.out.println("frame: " + frameCounter);
         //for testing
-        
-        frameCounter++;
         gameOver();
         move();
         MeleeAttack();
@@ -41,6 +43,7 @@ public class Hero extends Actor
         if(Greenfoot.isKeyDown("up"))
         {
             setLocation(getX(), getY() - speed);
+            //move(speed);
         }
         if(Greenfoot.isKeyDown("down"))
         {
@@ -61,7 +64,7 @@ public class Hero extends Actor
         if(Greenfoot.isKeyDown("space"))
         {
             Enemy enemy = (Enemy) getOneIntersectingObject(Enemy.class);
-            if(enemy != null && frameCounter >= attackSpeed)
+            if(enemy != null && frameCounter > 300)
             {
                 enemy.health -= damage;
                 frameCounter = 0;
