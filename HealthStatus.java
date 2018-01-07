@@ -23,7 +23,7 @@ public class HealthStatus extends Actor
     
     void updateHealthStatus(int _health)
     {
-        healthStatus = new GreenfootImage("Health: " + _health, 24, Color.RED, Color.WHITE);
+        healthStatus = new GreenfootImage("Viata: " + _health, 24, Color.RED, Color.WHITE);
         setImage(healthStatus);
     }
 }

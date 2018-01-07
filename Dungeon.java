@@ -8,7 +8,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Dungeon extends World
 {
-    
 
     public Dungeon()
     {    
@@ -18,29 +17,22 @@ public class Dungeon extends World
     
     private void prepare()
     {
-        Hero hero = new Hero();
-        HealthStatus healthstatus = new HealthStatus(hero);
-        CloseEnemy closeenemy = new CloseEnemy();
-        RangeEnemy rangeenemy = new RangeEnemy();
-        Enemy enemy = new Enemy();
+        Character character = new Character();
 
-        addObject(enemy,5,5);
-        addObject(rangeenemy,10,10);
-        addObject(closeenemy,7,7);
-        addObject(hero,3, 3);
-        addObject(healthstatus,15,15);
-        healthstatus.setLocation(277,291);
-        healthstatus.setLocation(63,40);
-        closeenemy.setLocation(270,208);
-        rangeenemy.setLocation(270,303);
-        hero.setLocation(272,393);
-        hero.setLocation(451,256);
-        enemy.setLocation(271,382);
-        removeObject(healthstatus);
-        removeObject(rangeenemy);
-        removeObject(enemy);
-        HealthStatus healthstatus2 = new HealthStatus(hero);
-        addObject(healthstatus2,63,53);
+        Hero hero = new Hero();
+        addObject(hero,548,307);
+        CloseEnemy closeenemy = new CloseEnemy();
+        addObject(closeenemy,287,209);
+        CloseEnemy closeenemy2 = new CloseEnemy();
+        addObject(closeenemy2,298,424);
+        HealthStatus healthstatus = new HealthStatus(hero);
+        addObject(healthstatus,101,54);
+        addObject(character,796,1);
+        closeenemy2.setLocation(418,59);
+        closeenemy.setLocation(574,53);
+        RangeEnemy rangeenemy = new RangeEnemy();
+        addObject(rangeenemy,160,439);
+        removeObject(character);
     }
     
 }

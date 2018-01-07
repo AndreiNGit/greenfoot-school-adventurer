@@ -13,35 +13,37 @@ public class CloseEnemy extends Enemy
         speed = 1;
         damage = 10;
         health = 100;
-        attackSpeed = 100;
     }
     
     public void act() 
     {
-        System.out.println(frameCounter); //"CloseEnemy health:" + health);
-        
-        enemyDead();
         frameCounter++;
+        System.out.println(frameCounter + " CloseEnemy health :" + health);
+        enemyDead();
         attackHero();
     }
     
     void attackHero()
     {
-        List<Hero> heroList = getObjectsInRange(100, Hero.class);
-        if(!heroList.isEmpty())
+        if(this.getWorld() != null )
         {
-            System.out.println("FOUND FOUND FOUND FOUND");
-            Hero hero = (Hero)heroList.get(0);
-            if(!isTouching(Hero.class))
+            List<Hero> heroList = getObjectsInRange(100, Hero.class);
+            if(!heroList.isEmpty())
             {
-                turnTowards(hero.getX() , hero.getY());
-                move(speed);
-            }
-            else
-            {
-                if(frameCounter % attackSpeed == 0)
+                //System.out.println("FOUND FOUND FOUND FOUND");
+                Hero hero = (Hero)heroList.get(0);
+                if(!isTouching(Hero.class))
                 {
-                    hero.setHealth(hero.getHealth() - damage);
+                    turnTowards(hero.getX() , hero.getY());
+                    move(speed);
+                }
+                else
+                {
+                    if(frameCounter > 400)
+                    {
+                        hero.setHealth(hero.getHealth() - damage);
+                        frameCounter = 0;
+                    }
                 }
             }
         }
