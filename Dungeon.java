@@ -12,7 +12,7 @@ public class Dungeon extends World
 
     public Dungeon()
     {    
-        super(800, 600, 1);
+        super(800, 600 ,1);
         prepare();
     }
     
@@ -24,11 +24,23 @@ public class Dungeon extends World
         RangeEnemy rangeenemy = new RangeEnemy();
         Enemy enemy = new Enemy();
 
-        addObject(enemy,268,206);
-        addObject(rangeenemy,279,288);
-        addObject(closeenemy,274,381);
-        addObject(hero,450,292);
-        addObject(healthstatus,73,55);
+        addObject(enemy,5,5);
+        addObject(rangeenemy,10,10);
+        addObject(closeenemy,7,7);
+        addObject(hero,3, 3);
+        addObject(healthstatus,15,15);
+        healthstatus.setLocation(277,291);
+        healthstatus.setLocation(63,40);
+        closeenemy.setLocation(270,208);
+        rangeenemy.setLocation(270,303);
+        hero.setLocation(272,393);
+        hero.setLocation(451,256);
+        enemy.setLocation(271,382);
+        removeObject(healthstatus);
+        removeObject(rangeenemy);
+        removeObject(enemy);
+        HealthStatus healthstatus2 = new HealthStatus(hero);
+        addObject(healthstatus2,63,53);
     }
     
 }
