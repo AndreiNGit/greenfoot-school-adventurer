@@ -12,14 +12,24 @@ public class Enemy extends Character
     
     public void act() 
     {
+        frameCounter++;
     }
         
-    void enemyDead()
+    protected void checkLife()
     {
         if(health <= 0 && getWorld() != null)
         {
             World world = getWorld();
             world.removeObject(this);
+        }
+    }
+    
+    protected void moveRandom()
+    {
+        if(frameCounter % 100 == 0)
+        {
+            turn(Greenfoot.getRandomNumber(90));
+            move(Greenfoot.getRandomNumber(15));
         }
     }
 }

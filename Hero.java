@@ -16,23 +16,9 @@ public class Hero extends Character
         attackSpeed = 50;
     }
     
-    public int getHealth()
-    {
-        return health;
-    }
-    
-    public void setHealth(int _var)
-    {
-        health = _var;
-    }
-    
     public void act() 
     {
-        frameCounter++;
-        //for testing
-        //System.out.println("health: " + health);
-        System.out.println("frame: " + frameCounter);
-        //for testing
+        //frameCounter++;
         gameOver();
         move();
         MeleeAttack();
@@ -61,13 +47,12 @@ public class Hero extends Character
     
     void MeleeAttack()
     {
-        if(Greenfoot.isKeyDown("space"))
+        if(Greenfoot.getKey() == "space")
         {
             Enemy enemy = (Enemy) getOneIntersectingObject(Enemy.class);
-            if(enemy != null && frameCounter > 300)
+            if(enemy != null)
             {
                 enemy.health -= damage;
-                frameCounter = 0;
             }
         }
     }
@@ -76,6 +61,7 @@ public class Hero extends Character
     {
         if (health <= 0)
         {
+            health = 0;
             Greenfoot.stop();
         }
     }

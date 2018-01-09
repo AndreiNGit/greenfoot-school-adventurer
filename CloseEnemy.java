@@ -19,7 +19,7 @@ public class CloseEnemy extends Enemy
     {
         frameCounter++;
         System.out.println(frameCounter + " CloseEnemy health :" + health);
-        enemyDead();
+        checkLife();
         attackHero();
     }
     
@@ -45,6 +45,10 @@ public class CloseEnemy extends Enemy
                         frameCounter = 0;
                     }
                 }
+            }
+            else
+            {
+                moveRandom();
             }
         }
     }
