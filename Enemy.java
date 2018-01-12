@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Enemy extends Character
 {
-    
+    protected Hero hero;
     
     public void act() 
     {
@@ -26,10 +26,10 @@ public class Enemy extends Character
     
     protected void moveRandom()
     {
-        if(frameCounter % 100 == 0)
+        if(Greenfoot.getRandomNumber(1000) < 10)
         {
-            turn(Greenfoot.getRandomNumber(90));
-            move(Greenfoot.getRandomNumber(15));
+            turn(Greenfoot.getRandomNumber(90 - 45));
+            move(Greenfoot.getRandomNumber(20));
         }
     }
 }

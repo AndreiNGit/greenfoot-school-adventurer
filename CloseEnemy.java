@@ -8,22 +8,26 @@ import java.util.List;
  */
 public class CloseEnemy extends Enemy
 {
-    public CloseEnemy()
+    Hero hero;
+    
+    public CloseEnemy(Hero _hero)
     {
         speed = 1;
         damage = 10;
         health = 100;
+        attackSpeed = 350;
+        hero = _hero;
     }
     
     public void act() 
     {
         frameCounter++;
-        System.out.println(frameCounter + " CloseEnemy health :" + health);
+        //System.out.println(frameCounter + " CloseEnemy health :" + health);
         checkLife();
-        attackHero();
+        attack();
     }
     
-    void attackHero()
+    void attack()
     {
         if(this.getWorld() != null )
         {
@@ -39,7 +43,7 @@ public class CloseEnemy extends Enemy
                 }
                 else
                 {
-                    if(frameCounter > 400)
+                    if(frameCounter > attackSpeed)
                     {
                         hero.setHealth(hero.getHealth() - damage);
                         frameCounter = 0;

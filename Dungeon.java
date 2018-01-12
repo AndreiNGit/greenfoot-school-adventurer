@@ -21,14 +21,15 @@ public class Dungeon extends World
         addObject(hero,731,334);
         HealthStatus healthstatus = new HealthStatus(hero);
         addObject(healthstatus,97,54);
-        RangeEnemy rangeenemy = new RangeEnemy();
+        RangeEnemy rangeenemy = new RangeEnemy(hero);
         addObject(rangeenemy,188,225);
-        RangeEnemy rangeenemy2 = new RangeEnemy();
+        RangeEnemy rangeenemy2 = new RangeEnemy(hero);
         addObject(rangeenemy2,190,342);
-        CloseEnemy closeenemy = new CloseEnemy();
+        CloseEnemy closeenemy = new CloseEnemy(hero);
         addObject(closeenemy,723,54);
-        CloseEnemy closeenemy2 = new CloseEnemy();
+        CloseEnemy closeenemy2 = new CloseEnemy(hero);
         addObject(closeenemy2,534,62);
         rangeenemy.setLocation(173,181);
+        rangeenemy2.setLocation(189,347);
     }
 }

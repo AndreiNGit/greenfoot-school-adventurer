@@ -9,14 +9,15 @@ import java.util.List;
  */
 public class RangeEnemy extends Enemy
 {
-    private RangeFire rangeFire = new RangeFire();
     private int shootDistance;
     
-    public RangeEnemy()
+    public RangeEnemy(Hero _hero)
     {
         speed = 1;
         health = 100;
         shootDistance = 100;
+        attackSpeed = 180;
+        hero = _hero;
     }
     
     public void act() 
@@ -34,7 +35,6 @@ public class RangeEnemy extends Enemy
             List<Hero> heroList = getObjectsInRange(200, Hero.class);
             if(!heroList.isEmpty())
             {
-                //System.out.println("FOUND FOUND FOUND FOUND");
                 Hero hero = (Hero)heroList.get(0);
                 int dx = getDistanceX(this.getX(), hero.getX());
                 int dy = getDistanceY(this.getY(), hero.getY());
@@ -45,9 +45,11 @@ public class RangeEnemy extends Enemy
                 }
                 else
                 {
-                    if(frameCounter > 300)
+                    if(frameCounter > attackSpeed)
                     {
-                        rangeFire.shoot(this, hero);
+                        FireBall fireball = new FireBall(this);
+                        getWorld().addObject(fireball, this.getX(), this.getY());
+                        fireball.turnTowards(hero.getX(), hero.getY());
                         frameCounter = 0;
                     }
                 }

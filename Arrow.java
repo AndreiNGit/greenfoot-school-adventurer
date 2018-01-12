@@ -6,11 +6,46 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class RangeFire extends Actor
+public class Arrow extends Bullet
 {
-    private int speed = 1;
-    private int damage = 15;
-     
+    public Arrow(Character _character)
+    {
+        speed = 4;
+        damage = 13;
+        range = 150;
+        character = _character;
+    }
+    
+    public void act()
+    {
+        checkForEnemy();
+        move(speed);
+    }
+    
+    void checkForEnemy()
+    {
+        Enemy enemy = (Enemy)getOneIntersectingObject(Enemy.class);
+        if(enemy != null)
+        {
+            enemy.setHealth(enemy.getHealth() - damage);
+            getWorld().removeObject(this);
+        }
+        else
+        {
+            checkForCollision();
+            checkForDistance(character);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
     public void shoot(RangeEnemy enemy, Character character)
     {
         World world = enemy.getWorld();
@@ -23,9 +58,10 @@ public class RangeFire extends Actor
             character.setHealth(character.getHealth() - damage);
             world.removeObject(shoot);
         }
-        else if (shoot.isTouching(null) || shoot.isAtEdge())
+        else if (shoot.isAtEdge())
         {
             world.removeObject(shoot);
         }
     }
+    **/
 }
