@@ -12,23 +12,23 @@ public class Hero extends Character
     private boolean sDown = false;
     private int chooseAttack = 2;
     private int direction = 2;
-    
+
     public Hero()
     {
-        speed = 2;
+        speed = 3;
         damage = 20;
         health = 100;
     }
-    
+
     public void act() 
     {
         move();
         gameOver();
         attack();
-        chooseAttack();
-        chooseAttackCooldown();
+        changeAttackStart();
+        changeAttackCooldown();
     }
-    
+
     void move()
     {
         //Schimba locatia si seteaza variabila 'direction' pentru functia 'rangeAttack'
@@ -53,9 +53,10 @@ public class Hero extends Character
             setLocation(getX() - speed, getY());
         }
     }
-    
+
     void attack()
     {
+        //Daca tasta space este apasata atunci caracterul ataca folosind metoda curenta
         if(spaceDown != Greenfoot.isKeyDown("space"))
         {
             spaceDown = !spaceDown;
@@ -72,69 +73,67 @@ public class Hero extends Character
             }
         }
     }
-    
-    void chooseAttack()
+
+    void changeAttackStart()
     {
+        //Daca tasta 's' este apasata atunci caracterul comuta intre cele doua moduri de atac
         if(sDown != Greenfoot.isKeyDown("s"))
         {
             sDown = !sDown;
             if(sDown)
             {
-                System.out.println(chooseAttack+ " "+ frameCounter);
-                frameCounter++;
-                if (chooseAttack == 1 || chooseAttack == 4)
+                frameCounter = 1; //se atribuie valoarea 1 pentru a executa metoda changeAttackCoolDown()
+                //3,4 sunt valori reziduale folosite pentru a evita folosirea atacului in timpul schimbului
+                if(chooseAttack == 1)
                 {
-                    if(frameCounter > 180)
-                    {
-                        chooseAttack = 2;
-                        frameCounter = 0;
-                    }
+                    chooseAttack = 3;
                 }
-                else if(chooseAttack == 2 || chooseAttack == 3)
+                else if(chooseAttack == 2)
                 {
-                    if(frameCounter > 180)
-                    {
-                        chooseAttack = 1;
-                        frameCounter = 0;
-                    }
+                    chooseAttack = 4;
                 }
             }
         }
     }
-    
-    void chooseAttackCooldown()
+
+    void changeAttackCooldown()
     {
-        if (frameCounter >= 1 && frameCounter <= 180)
+        //Metoda actioneaza ca un timer pentru schimbul atacurilor
+        if (frameCounter >= 1 && frameCounter <= 100)
         {
             frameCounter++;
-            if(chooseAttack == 1)
+            if(chooseAttack == 4 && frameCounter == 100)
             {
-                chooseAttack = 3;
+                chooseAttack = 1;
+                frameCounter = 0; //se atribuie valoarea 0 pentru a opri din executie metoda
             }
-            else if(chooseAttack == 2)
+            else if(chooseAttack == 3 && frameCounter == 100)
             {
-                chooseAttack = 4;
+                chooseAttack = 2;
+                frameCounter = 0;
             }
-            System.out.println("update " + frameCounter);
+            System.out.println("frameCounter " + frameCounter);
+            System.out.println("attack " + chooseAttack);
         }
     }
     
     void meleeAttack()
     {
+        //Caracterul ataca inamicul cu care se intersecteaza
         Enemy enemy = (Enemy)getOneIntersectingObject(Enemy.class);
         if(enemy != null)
         {
             enemy.setHealth(enemy.getHealth() - damage);
         }
     }
-    
 
     void rangeAttack()
-    {   
+    {
+        //Caracterul ataca de la distanta folosind obiectele din clasa Arrow
         Arrow arrow = new Arrow(this);
         getWorld().addObject(arrow, getX(), getY());
-        
-        //Setarea directiei sagetii in functie de unghiul miscarii caracterului
+
+        //Setarea directiei sagetii in functie de orientarea caracterului
         if(direction == 1)
         {
             arrow.setRotation(270);
@@ -152,9 +151,10 @@ public class Hero extends Character
             arrow.setRotation(180);
         }
     }
-    
+
     void gameOver()
     {
+        //Opreste jocul in momentul in care caracterul moare
         if (health <= 0)
         {
             health = 0;

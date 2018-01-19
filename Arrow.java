@@ -10,58 +10,28 @@ public class Arrow extends Bullet
 {
     public Arrow(Character _character)
     {
-        speed = 4;
+        speed = 5;
         damage = 13;
-        range = 150;
+        range = 170;
         character = _character;
     }
     
     public void act()
     {
         checkForEnemy();
+        checkForCollision();
+        checkForDistance(character);
         move(speed);
     }
     
     void checkForEnemy()
     {
+        //Metoda scade viata inamicului cand este atins de obiect si sterge obiectul din lume
         Enemy enemy = (Enemy)getOneIntersectingObject(Enemy.class);
         if(enemy != null)
         {
             enemy.setHealth(enemy.getHealth() - damage);
             getWorld().removeObject(this);
         }
-        else
-        {
-            checkForCollision();
-            checkForDistance(character);
-        }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /**
-    public void shoot(RangeEnemy enemy, Character character)
-    {
-        World world = enemy.getWorld();
-        RangeFire shoot = new RangeFire();
-        world.addObject(shoot, enemy.getX(), enemy.getY());
-        shoot.turnTowards(character.getX(), character.getY());
-        shoot.move(speed);
-        if(shoot.isTouching(Character.class))
-        {
-            character.setHealth(character.getHealth() - damage);
-            world.removeObject(shoot);
-        }
-        else if (shoot.isAtEdge())
-        {
-            world.removeObject(shoot);
-        }
-    }
-    **/
 }

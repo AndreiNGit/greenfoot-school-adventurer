@@ -31,5 +31,7 @@ public class Dungeon extends World
         addObject(closeenemy2,534,62);
         rangeenemy.setLocation(173,181);
         rangeenemy2.setLocation(189,347);
+        Chest chest = new Chest("a", " ", " ", " ", " ", 'a');
+        addObject(chest,614,585);
     }
 }

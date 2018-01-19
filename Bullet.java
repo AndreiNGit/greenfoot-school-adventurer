@@ -16,15 +16,19 @@ public class Bullet extends Actor
     
     void checkForCollision()
     {
-        if(this.isAtEdge()) // de adaugat
+        if(this.getWorld() != null && character.getWorld() != null)
         {
-            getWorld().removeObject(this);
+            if(this.isAtEdge()) // de adaugat
+            {
+                getWorld().removeObject(this);
+            }
         }
     }
     
     void checkForDistance(Character _character)
     {
-        if(character != null && this.getWorld() != null && character.getWorld() != null)
+        //Metoda sterge obiectul din lume cand depaseste o anumita distanta fata de npc/caracter
+        if(this.getWorld() != null && character.getWorld() != null)
         {
             int dx = getDistanceX(this.getX(), _character.getX());
             int dy = getDistanceY(this.getY(), _character.getY());
@@ -35,12 +39,12 @@ public class Bullet extends Actor
         }
     }
     
-    private int getDistanceX(int bulletX, int characterX)
+    int getDistanceX(int bulletX, int characterX)
     {
         return bulletX - characterX;
     }
     
-    private int getDistanceY(int bulletY, int characterY)
+    int getDistanceY(int bulletY, int characterY)
     {
         return bulletY - characterY;
     }

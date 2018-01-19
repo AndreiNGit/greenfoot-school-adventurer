@@ -12,7 +12,6 @@ public class Character extends Actor
     protected int health;
     protected int damage;
     protected int frameCounter;
-    protected int attackSpeed;
     
     public int getHealth()
     {

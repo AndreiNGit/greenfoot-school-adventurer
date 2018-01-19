@@ -10,9 +10,9 @@ public class FireBall extends Bullet
 {
     public FireBall(Character _character)
     {
-        speed = 3;
-        damage = 15;
-        range = 100;
+        speed = 4;
+        damage = 16;
+        range = 150;
         character = _character;
     }
     
@@ -26,6 +26,7 @@ public class FireBall extends Bullet
     
     void checkForHero()
     {
+        //Metoda scade viata caracterului daca este atins de obiect si sterge obiectul din lume
         if(this.getWorld() != null)
         {
             Hero hero = (Hero)getOneIntersectingObject(Hero.class);

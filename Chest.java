@@ -13,10 +13,10 @@ public class Chest extends Actor
     private String answerB;
     private String answerC;
     private String answerD;
-    private String correctChoice;
+    private char correctChoice;
     private boolean zDown = false;
     
-    public Chest(String _question, String ansA, String ansB, String ansC, String ansD, String _correctChoice)
+    public Chest(String _question, String ansA, String ansB, String ansC, String ansD, char _correctChoice)
     {
         question = _question;
         answerA = ansA;
@@ -28,9 +28,10 @@ public class Chest extends Actor
     
     public void act() 
     {
+        question(correctChoice);
     }
     
-    void question(String correctAnswer)
+    void question(char _correctChoice)
     {
         if(zDown != Greenfoot.isKeyDown("z"))
         {
@@ -38,7 +39,7 @@ public class Chest extends Actor
             zDown = !zDown;
             if(zDown && hero != null)
             {
-                
+                System.out.println("true");
             }
         }
     }
