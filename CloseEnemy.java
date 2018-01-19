@@ -7,44 +7,54 @@ import java.util.List;
  * @version (a version number or a date)
  */
 public class CloseEnemy extends Enemy
-{
-    public CloseEnemy()
+{   
+    public CloseEnemy(Hero _hero)
     {
-        speed = 1;
-        damage = 10;
+        speed = 2;
+        damage = 13;
         health = 100;
+        attackSpeed = 230;
+        attackRange = 5;
+        hero = _hero;
     }
     
     public void act() 
     {
         frameCounter++;
-        System.out.println(frameCounter + " CloseEnemy health :" + health);
-        enemyDead();
-        attackHero();
+        checkLife();
+        attack();
     }
     
-    void attackHero()
+    void attack()
     {
+        //Daca eroul este in apropiere atunci inamicul il urmareste pana ajunge in raza de atac si il ataca
         if(this.getWorld() != null )
         {
             List<Hero> heroList = getObjectsInRange(100, Hero.class);
             if(!heroList.isEmpty())
             {
-                //System.out.println("FOUND FOUND FOUND FOUND");
                 Hero hero = (Hero)heroList.get(0);
                 if(!isTouching(Hero.class))
                 {
                     turnTowards(hero.getX() , hero.getY());
                     move(speed);
+                    isAttacked = false;
                 }
                 else
                 {
-                    if(frameCounter > 400)
+                    if(frameCounter > attackSpeed)
                     {
                         hero.setHealth(hero.getHealth() - damage);
                         frameCounter = 0;
                     }
                 }
+            }
+            else
+            {
+                //Daca eroul nu se afla in apropiere atunci executa metodele:
+                randomMove();
+                atEdge();
+                checkForEnemyTrigger();
             }
         }
     }

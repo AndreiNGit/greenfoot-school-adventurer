@@ -12,9 +12,14 @@ public class Character extends Actor
     protected int health;
     protected int damage;
     protected int frameCounter;
-    protected int attackSpeed;
     
-    public void act() 
+    public int getHealth()
     {
+        return this.health;
+    }
+    
+    public void setHealth(int _health)
+    {
+        this.health = _health;
     }    
 }
