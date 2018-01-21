@@ -37,8 +37,9 @@ public class Hero extends Character
 
     public void act() 
     {
-        move();
+        collision();
         idleAnimation();
+        move();
         gameOver();
         attack();
         changeAttackStart();
@@ -51,50 +52,48 @@ public class Hero extends Character
         if(Greenfoot.isKeyDown("up"))
         {
             direction = 1;
-            movingAnimation(noWeaponSprites[0], noWeaponSprites[0] ,noWeaponSprites[1], noWeaponSprites[2]);
+            movingAnimation(noWeaponSprites[0], noWeaponSprites[1], noWeaponSprites[2]);
             setLocation(getX(), getY() - speed);
-        }
+       }
         else if(Greenfoot.isKeyDown("down"))
         {
             direction = 2;
-            movingAnimation(noWeaponSprites[3], noWeaponSprites[3] ,noWeaponSprites[4], noWeaponSprites[5]);
+            movingAnimation(noWeaponSprites[3], noWeaponSprites[4], noWeaponSprites[5]);
             setLocation(getX(), getY() + speed);
         }
         else if(Greenfoot.isKeyDown("right"))
         {
             direction = 3;
-            movingAnimation(noWeaponSprites[6], noWeaponSprites[6] ,noWeaponSprites[7], noWeaponSprites[8]);
+            movingAnimation(noWeaponSprites[6], noWeaponSprites[7], noWeaponSprites[8]);
             setLocation(getX() + speed, getY());
         }
         else if(Greenfoot.isKeyDown("left"))
         {
             direction = 4;
-            movingAnimation(noWeaponSprites[9], noWeaponSprites[9] ,noWeaponSprites[10], noWeaponSprites[11]);
+            movingAnimation(noWeaponSprites[9], noWeaponSprites[10], noWeaponSprites[11]);
             setLocation(getX() - speed, getY());
         }
     }
 
-    void movingAnimation(GreenfootImage idle1, GreenfootImage idle2, GreenfootImage mv1, GreenfootImage mv2)
+    void movingAnimation(GreenfootImage idle, GreenfootImage mv1, GreenfootImage mv2)
     {
         animationCounter++;
-        if(animationCounter%10 == 0)
+        if (animationCounter == 10)
         {
-            if(getImage().equals(idle1))
-            {
-                setImage(mv1);
-            }
-            else if(getImage().equals(mv1))
-            {
-                setImage(idle2);
-            }
-            else if(getImage().equals(idle2))
-            {
-                setImage(mv2);
-            }
-            else
-            {
-                setImage(idle1);
-            }
+            setImage(mv1);
+        }
+        if (animationCounter == 20)
+        {
+            setImage(idle);
+        }
+        if (animationCounter == 30)
+        {
+            setImage(mv2);
+        }
+        if (animationCounter == 40)
+        {
+            setImage(idle);
+            animationCounter = 0;
         }
     }
     
@@ -215,7 +214,7 @@ public class Hero extends Character
             arrow.setRotation(180);
         }
     }
-
+    
     void gameOver()
     {
         //Opreste jocul in momentul in care caracterul moare
@@ -223,6 +222,29 @@ public class Hero extends Character
         {
             health = 0;
             Greenfoot.stop();
+        }
+    }
+    
+    void collision()
+    {
+        if(this.isTouching(Wall.class))
+        {
+            if(direction == 1)
+            {
+                setLocation(getX(), getY() + speed);
+            }
+            else if(direction == 2)
+            {
+                setLocation(getX(), getY() - speed);
+            }
+            else if(direction == 3)
+            {
+                setLocation(getX()  - speed, getY());
+            }
+            else if(direction == 4)
+            {
+                setLocation(getX()  + speed, getY());
+            }
         }
     }
 }

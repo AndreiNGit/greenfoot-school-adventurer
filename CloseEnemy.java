@@ -14,7 +14,7 @@ public class CloseEnemy extends Enemy
         damage = 13;
         health = 100;
         attackSpeed = 230;
-        attackRange = 5;
+        attackRange = 100;
         hero = _hero;
     }
     
@@ -30,11 +30,13 @@ public class CloseEnemy extends Enemy
         //Daca eroul este in apropiere atunci inamicul il urmareste pana ajunge in raza de atac si il ataca
         if(this.getWorld() != null )
         {
+            int dx = getDistanceX(this.getX(), hero.getX());
+            int dy = getDistanceY(this.getY(), hero.getY());
             List<Hero> heroList = getObjectsInRange(100, Hero.class);
             if(!heroList.isEmpty())
             {
                 Hero hero = (Hero)heroList.get(0);
-                if(!isTouching(Hero.class))
+                if(dx > attackRange || dy > attackRange || dx < -attackRange || dy < -attackRange)
                 {
                     turnTowards(hero.getX() , hero.getY());
                     move(speed);
