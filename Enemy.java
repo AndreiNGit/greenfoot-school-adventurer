@@ -10,8 +10,9 @@ public class Enemy extends Character
 {
     protected boolean randomMove = false;
     protected boolean isAttacked = false;
-    protected int attackSpeed;
+    protected SimpleTimer attackTimer = new SimpleTimer();
     protected int attackRange;
+    protected int attackCooldown;
     protected int randMoveCounter = 0;
     protected Hero hero;
     
@@ -38,7 +39,7 @@ public class Enemy extends Character
             {
                 turn(Greenfoot.getRandomNumber(90)-45);
             }
-            if(randMoveCounter < 50)
+            if(randMoveCounter < 25)
             {
                 move(speed);
             }
@@ -50,11 +51,12 @@ public class Enemy extends Character
         }
     }
     
-    void atEdge()
+    void Collision()
     {
-        if(isAtEdge())
+        if(this.isTouching(Wall.class) || this.isTouching(Chest.class))
         {
             turn(180);
+            move(speed);
         }
     }
     
@@ -76,6 +78,30 @@ public class Enemy extends Character
                 move(speed);
             }
         }
+    }
+    
+    void enemyCollision()
+    {
+        // Actor up = getOneObjectAtOffset(0, -10, Enemy.class);
+        // Actor down = getOneObjectAtOffset(0, 10, Enemy.class);
+        // Actor right = getOneObjectAtOffset(10, 0, Enemy.class);
+        // Actor left = getOneObjectAtOffset(-10, 0, Enemy.class);
+        // if(up != null)
+        // {
+            // setLocation(getX(), getY() + speed);
+        // }
+        // if(down != null)
+        // {
+            // setLocation(getX(), getY() - speed);
+        // }
+        // if(right != null)
+        // {
+            // setLocation(getX() - speed, getY());
+        // }
+        // if(left != null)
+        // {
+            // setLocation(getX() + speed, getY());
+        // }
     }
     
     int getDistanceX(int enemyX, int heroX)

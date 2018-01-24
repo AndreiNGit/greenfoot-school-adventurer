@@ -10,9 +10,15 @@ public class Hero extends Character
 {
     private boolean spaceDown = false;
     private boolean sDown = false;
+    
     private int chooseAttack = 2;
     private int direction = 2;
     private int animationCounter = 0;
+    private int maxHealth;
+    
+    private SimpleTimer rangeAttackTimer = new SimpleTimer();
+    Label healthStatus = new Label("Health:" + getHealth(), 30);
+
     private GreenfootImage[] noWeaponSprites = {
     new GreenfootImage("upIdle.png"),
     new GreenfootImage("upMove1.png"),
@@ -32,15 +38,15 @@ public class Hero extends Character
     {
         speed = 3;
         damage = 20;
-        health = 100;
+        maxHealth = 80;
+        health = maxHealth;
     }
 
     public void act() 
     {
-        collision();
         idleAnimation();
         move();
-        gameOver();
+        Status();
         attack();
         changeAttackStart();
         changeAttackCooldown();
@@ -48,33 +54,44 @@ public class Hero extends Character
     
     void move()
     {
-        //Schimba locatia si seteaza variabila 'direction' pentru functia 'rangeAttack'
         if(Greenfoot.isKeyDown("up"))
         {
             direction = 1;
-            movingAnimation(noWeaponSprites[0], noWeaponSprites[1], noWeaponSprites[2]);
-            setLocation(getX(), getY() - speed);
-       }
+            if(upCollision()) //executa miscarea daca nu exista un zid in fata
+            {
+                movingAnimation(noWeaponSprites[0], noWeaponSprites[1], noWeaponSprites[2]);
+                setLocation(getX(), getY() - speed);
+            }
+        }
         else if(Greenfoot.isKeyDown("down"))
         {
             direction = 2;
-            movingAnimation(noWeaponSprites[3], noWeaponSprites[4], noWeaponSprites[5]);
-            setLocation(getX(), getY() + speed);
+            if(downCollision())
+            {
+                movingAnimation(noWeaponSprites[3], noWeaponSprites[4], noWeaponSprites[5]);
+                setLocation(getX(), getY() + speed);
+            }
         }
         else if(Greenfoot.isKeyDown("right"))
         {
             direction = 3;
-            movingAnimation(noWeaponSprites[6], noWeaponSprites[7], noWeaponSprites[8]);
-            setLocation(getX() + speed, getY());
+            if(rightCollision())
+            {
+                movingAnimation(noWeaponSprites[6], noWeaponSprites[7], noWeaponSprites[8]);
+                setLocation(getX() + speed, getY());
+            }
         }
         else if(Greenfoot.isKeyDown("left"))
         {
             direction = 4;
-            movingAnimation(noWeaponSprites[9], noWeaponSprites[10], noWeaponSprites[11]);
-            setLocation(getX() - speed, getY());
+            if(leftCollision())
+            {
+                movingAnimation(noWeaponSprites[9], noWeaponSprites[10], noWeaponSprites[11]);
+                setLocation(getX() - speed, getY());
+            }
         }
     }
-
+    
     void movingAnimation(GreenfootImage idle, GreenfootImage mv1, GreenfootImage mv2)
     {
         animationCounter++;
@@ -114,6 +131,67 @@ public class Hero extends Character
         else if(!Greenfoot.isKeyDown("left") && direction == 4)
         {
             setImage(noWeaponSprites[9]);
+        }
+    }
+    
+    boolean upCollision()
+    {
+        Actor upWall = getOneObjectAtOffset(0, -30, Wall.class);
+        Actor upChest = getOneObjectAtOffset(0, -30, Chest.class);
+        Actor upEnemy = getOneObjectAtOffset(0, -30, Enemy.class);
+        
+        if(upWall != null || upChest != null || upEnemy != null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    boolean downCollision()
+    {
+        Actor downWall = getOneObjectAtOffset(0, 30, Wall.class);
+        Actor downChest = getOneObjectAtOffset(0, 30, Chest.class);
+        Actor downEnemy = getOneObjectAtOffset(0, 30, Enemy.class);
+        if(downWall != null || downChest != null || downEnemy != null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    boolean rightCollision()
+    {
+        Actor rightWall = getOneObjectAtOffset(15, 0, Wall.class);
+        Actor rightChest = getOneObjectAtOffset(15, 0, Chest.class);
+        Actor rightEnemy = getOneObjectAtOffset(15, 0, Enemy.class);
+        if(rightWall != null || rightChest != null || rightEnemy != null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    boolean leftCollision()
+    {
+        Actor leftWall = getOneObjectAtOffset(-15, 0, Wall.class);
+        Actor leftChest = getOneObjectAtOffset(-15, 0, Chest.class);
+        Actor leftEnemy = getOneObjectAtOffset(-15, 0, Enemy.class);
+        if(leftWall != null || leftChest != null || leftEnemy != null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
     
@@ -195,7 +273,6 @@ public class Hero extends Character
         //Caracterul ataca de la distanta folosind obiectele din clasa Arrow
         Arrow arrow = new Arrow(this);
         getWorld().addObject(arrow, getX(), getY());
-
         //Setarea directiei sagetii in functie de orientarea caracterului
         if(direction == 1)
         {
@@ -214,7 +291,21 @@ public class Hero extends Character
             arrow.setRotation(180);
         }
     }
-    
+        
+    void Status()
+    {
+        if(health >= 0)
+        {
+            healthStatus.setValue("Health: " + health + "/" + maxHealth);
+        }
+        else
+        {
+            healthStatus.setValue("Health: " + 0  + "/" + maxHealth);
+        }
+        healthStatus.updateImage();
+        getWorld().addObject(healthStatus, 120,40);
+    }
+        
     void gameOver()
     {
         //Opreste jocul in momentul in care caracterul moare
@@ -222,29 +313,6 @@ public class Hero extends Character
         {
             health = 0;
             Greenfoot.stop();
-        }
-    }
-    
-    void collision()
-    {
-        if(this.isTouching(Wall.class))
-        {
-            if(direction == 1)
-            {
-                setLocation(getX(), getY() + speed);
-            }
-            else if(direction == 2)
-            {
-                setLocation(getX(), getY() - speed);
-            }
-            else if(direction == 3)
-            {
-                setLocation(getX()  - speed, getY());
-            }
-            else if(direction == 4)
-            {
-                setLocation(getX()  + speed, getY());
-            }
         }
     }
 }
