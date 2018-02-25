@@ -33,5 +33,30 @@ public class Dungeon extends World
         rangeenemy2.setLocation(189,347);
         Chest chest = new Chest("a", " ", " ", " ", " ", 'a');
         addObject(chest,614,585);
+        Wall wall = new Wall(20, 100);
+        addObject(wall,421,352);
+        Wall wall2 = new Wall(100, 100);
+        addObject(wall2,230,469);
+        wall2.setLocation(131,474);
+        removeObject(wall2);
+        removeObject(wall);
+        Wall wall3 = new Wall(800, 20);
+        addObject(wall3,70,426);
+        wall3.setLocation(399,592);
+        Wall wall4 = new Wall(800, 20);
+        addObject(wall4,426,17);
+        wall4.setLocation(401,9);
+        Wall wall5 = new Wall(20, 600);
+        addObject(wall5,43,312);
+        wall5.setLocation(10,289);
+        Wall wall6 = new Wall(20, 600);
+        addObject(wall6,494,323);
+        wall6.setLocation(494,323);
+        wall6.setLocation(494,323);
+        wall6.setLocation(494,323);
+        wall6.setLocation(494,323);
+        wall6.setLocation(494,323);
+        wall6.setLocation(494,323);
+        wall6.setLocation(790,294);
     }
 }

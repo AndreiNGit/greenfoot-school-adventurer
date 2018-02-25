@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.List;
 /**
  * Write a description of class Chest here.
  * 
@@ -15,6 +15,9 @@ public class Chest extends Actor
     private String answerD;
     private char correctChoice;
     private boolean zDown = false;
+    private int noChoice = 3;
+    private int windowWidth = 150;
+    private int windowsHeight = 150;
     
     public Chest(String _question, String ansA, String ansB, String ansC, String ansD, char _correctChoice)
     {
@@ -35,12 +38,22 @@ public class Chest extends Actor
     {
         if(zDown != Greenfoot.isKeyDown("z"))
         {
-            Hero hero = (Hero)getOneObjectAtOffset(50, 50, Hero.class);
+            List<Hero> hero = getObjectsInRange(100, Hero.class);
             zDown = !zDown;
-            if(zDown && hero != null)
+            if(zDown && !hero.isEmpty())
             {
                 System.out.println("true");
+                drawWindow(question, answerA, answerB, answerC, answerD);
             }
         }
+    }
+    
+    void drawWindow(String _question, String ansA, String ansB, String ansC, String ansD)
+    {
+        GreenfootImage background = new GreenfootImage(windowWidth, windowsHeight);
+        background.drawRect(getWorld().getWidth()/2, getWorld().getHeight()/2, windowWidth, windowsHeight);
+        background.setColor(Color.WHITE);
+        background.fillRect(getWorld().getWidth()/2, getWorld().getHeight()/2, windowWidth, windowsHeight);
+        setImage(background);
     }
 }

@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Door
+comment0.text=\n\ Write\ a\ description\ of\ class\ Door\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=_nextRoom
+comment1.target=Door(greenfoot.World)
+comment2.params=
+comment2.target=void\ act()
+comment3.params=nextWorld
+comment3.target=void\ nextRoom(greenfoot.World)
+numComments=4

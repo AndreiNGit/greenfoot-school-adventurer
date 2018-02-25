@@ -7,4 +7,6 @@ comment2.params=
 comment2.target=void\ act()
 comment3.params=_correctChoice
 comment3.target=void\ question(char)
-numComments=4
+comment4.params=_question\ ansA\ ansB\ ansC\ ansD
+comment4.target=void\ drawWindow(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+numComments=5

@@ -13,14 +13,13 @@ public class CloseEnemy extends Enemy
         speed = 2;
         damage = 13;
         health = 100;
-        attackSpeed = 230;
-        attackRange = 5;
+        attackRange = 25;
+        attackCooldown = 1500;
         hero = _hero;
     }
     
     public void act() 
     {
-        frameCounter++;
         checkLife();
         attack();
     }
@@ -30,22 +29,26 @@ public class CloseEnemy extends Enemy
         //Daca eroul este in apropiere atunci inamicul il urmareste pana ajunge in raza de atac si il ataca
         if(this.getWorld() != null )
         {
-            List<Hero> heroList = getObjectsInRange(100, Hero.class);
+            int dx = getDistanceX(this.getX(), hero.getX()); //calculeaza distanta dintre erou si inamic
+            int dy = getDistanceY(this.getY(), hero.getY()); 
+            List<Hero> heroList = getObjectsInRange(150, Hero.class); //cauta eroul
             if(!heroList.isEmpty())
             {
                 Hero hero = (Hero)heroList.get(0);
-                if(!isTouching(Hero.class))
+                if(dx > attackRange || dy > attackRange || dx < -attackRange || dy < -attackRange)
                 {
+                    //daca eroul nu se afla in raza de atac atunci urmareste-l
+                    attackTimer.mark();
                     turnTowards(hero.getX() , hero.getY());
-                    move(speed);
-                    isAttacked = false;
+                    move(speed);                  
+                    isAttacked = false; //daca eroul a atacat inamicul cat timp era in afara razei vizuale a inamicului atunci urmareste eroul pana ajunge in raza de atac
                 }
                 else
                 {
-                    if(frameCounter > attackSpeed)
+                    if(attackTimer.millisElapsed() > attackCooldown)
                     {
                         hero.setHealth(hero.getHealth() - damage);
-                        frameCounter = 0;
+                        attackTimer.mark();
                     }
                 }
             }
@@ -53,7 +56,8 @@ public class CloseEnemy extends Enemy
             {
                 //Daca eroul nu se afla in apropiere atunci executa metodele:
                 randomMove();
-                atEdge();
+                Collision();
+                enemyCollision();
                 checkForEnemyTrigger();
             }
         }

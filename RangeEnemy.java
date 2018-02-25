@@ -14,14 +14,13 @@ public class RangeEnemy extends Enemy
         speed = 1;
         health = 100;
         attackRange = 130;
-        attackSpeed = 180;
+        attackCooldown = 2000;
         hero = _hero;
     }
     
     public void act() 
     {
         checkLife();
-        frameCounter++;
         attack();
     }
     
@@ -40,22 +39,24 @@ public class RangeEnemy extends Enemy
                     turnTowards(hero.getX(), hero.getY());
                     move(speed);
                     isAttacked = false;
+                    attackTimer.mark();
                 }
                 else
                 {
-                    if(frameCounter > attackSpeed)
+                    if(attackTimer.millisElapsed() > attackCooldown)
                     {
                         FireBall fireball = new FireBall(this);
                         getWorld().addObject(fireball, this.getX(), this.getY());
                         fireball.turnTowards(hero.getX(), hero.getY());
-                        frameCounter = 0;
+                        attackTimer.mark();
                     }
                 }
             }
             else
             {
                 randomMove();
-                atEdge();
+                Collision();
+                enemyCollision();
                 checkForEnemyTrigger();
             }
         }
