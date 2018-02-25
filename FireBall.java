@@ -8,11 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class FireBall extends Bullet
 {
+    private static int range = 300;
+    private static int damage = 16;
+    private static int speed = 4;
+    
     public FireBall(Character _character)
     {
-        speed = 4;
-        damage = 16;
-        range = 150;
         character = _character;
     }
     
@@ -20,7 +21,7 @@ public class FireBall extends Bullet
     {
         move(speed);
         checkForCollision();
-        checkForDistance(character);
+        checkForDistance(character, range);
         checkForHero();
     }
     
@@ -33,6 +34,7 @@ public class FireBall extends Bullet
             if(hero != null)
             {
                 hero.setHealth(hero.getHealth() - this.damage);
+                hero.updateHealthStatus();
                 getWorld().removeObject(this);
             }
         }

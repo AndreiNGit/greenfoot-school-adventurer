@@ -9,13 +9,12 @@ import java.util.List;
  */
 public class RangeEnemy extends Enemy
 {    
-    public RangeEnemy(Hero _hero)
+    public RangeEnemy()
     {
         speed = 1;
         health = 100;
-        attackRange = 130;
+        attackRange = 200;
         attackCooldown = 2000;
-        hero = _hero;
     }
     
     public void act() 
@@ -28,7 +27,7 @@ public class RangeEnemy extends Enemy
     {
         if(this.getWorld() != null )
         {
-            List<Hero> heroList = getObjectsInRange(200, Hero.class);
+            List<Hero> heroList = getObjectsInRange(300, Hero.class);
             if(!heroList.isEmpty())
             {
                 Hero hero = (Hero)heroList.get(0);
@@ -55,8 +54,7 @@ public class RangeEnemy extends Enemy
             else
             {
                 randomMove();
-                Collision();
-                enemyCollision();
+                collision();
                 checkForEnemyTrigger();
             }
         }

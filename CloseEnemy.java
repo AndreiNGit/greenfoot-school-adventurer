@@ -8,14 +8,13 @@ import java.util.List;
  */
 public class CloseEnemy extends Enemy
 {   
-    public CloseEnemy(Hero _hero)
+    public CloseEnemy()
     {
         speed = 2;
-        damage = 13;
+        damage = 10;
         health = 100;
         attackRange = 25;
-        attackCooldown = 1500;
-        hero = _hero;
+        attackCooldown = 1200;
     }
     
     public void act() 
@@ -48,6 +47,7 @@ public class CloseEnemy extends Enemy
                     if(attackTimer.millisElapsed() > attackCooldown)
                     {
                         hero.setHealth(hero.getHealth() - damage);
+                        hero.updateHealthStatus();
                         attackTimer.mark();
                     }
                 }
@@ -56,8 +56,7 @@ public class CloseEnemy extends Enemy
             {
                 //Daca eroul nu se afla in apropiere atunci executa metodele:
                 randomMove();
-                Collision();
-                enemyCollision();
+                collision();
                 checkForEnemyTrigger();
             }
         }

@@ -8,11 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Arrow extends Bullet
 {
+    private static int range = 300;
+    private static int speed = 5;
+    private static int damage = 13;
+    
     public Arrow(Character _character)
     {
-        speed = 5;
-        damage = 13;
-        range = 170;
         character = _character;
     }
     
@@ -20,7 +21,7 @@ public class Arrow extends Bullet
     {
         checkForEnemy();
         checkForCollision();
-        checkForDistance(character);
+        checkForDistance(character, range);
         move(speed);
     }
     
@@ -33,5 +34,35 @@ public class Arrow extends Bullet
             enemy.setHealth(enemy.getHealth() - damage);
             getWorld().removeObject(this);
         }
+    }
+    
+    public static void setRange(int _val)
+    {
+        range = _val;
+    }
+    
+    public static void setSpeed(int _val)
+    {
+        speed = _val;
+    }
+    
+    public static void setDamage(int _val)
+    {
+        damage = _val;
+    }
+    
+    public static int getRange()
+    {
+        return range;
+    }
+    
+    public static int getDamage()
+    {
+        return damage;
+    }
+    
+    public static int getSpeed()
+    {
+        return speed;
     }
 }

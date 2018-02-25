@@ -8,15 +8,27 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Wall extends Actor
 {
-    int width;
-    int height;
-    GreenfootImage tile;
+    GreenfootImage floor;
+    GreenfootImage tile = new GreenfootImage("upWall.png");
     
-    public Wall(int _width, int _height)
+    public Wall(int _width, int _height, int direction)
     {
-        width = _width;
-        height = _height;
-        tile = getImage();
-        tile.scale(_width, _height);
+        if(direction == 1)
+        {
+            turn(0);
+        }
+        else if(direction == 2)
+        {
+            turn(180);
+        }
+        else if(direction == 3)
+        {
+            turn(90);
+        }
+        else if(direction == 4)
+        {
+            turn(270);
+        }
+        getImage().scale(_width, _height);
     }
 }

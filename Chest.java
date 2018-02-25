@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
+ 
 /**
  * Write a description of class Chest here.
  * 
@@ -8,52 +9,144 @@ import java.util.List;
  */
 public class Chest extends Actor
 {
-    private String question;
-    private String answerA;
-    private String answerB;
-    private String answerC;
-    private String answerD;
-    private char correctChoice;
     private boolean zDown = false;
-    private int noChoice = 3;
-    private int windowWidth = 150;
-    private int windowsHeight = 150;
-    
-    public Chest(String _question, String ansA, String ansB, String ansC, String ansD, char _correctChoice)
-    {
-        question = _question;
-        answerA = ansA;
-        answerB = ansB;
-        answerC = ansC;
-        answerD = ansD;
-        correctChoice = _correctChoice;
-    }
-    
+    private boolean openChest = true;
+     
+    private int noChoices = 3;
+    private Label text = new Label("",30);
+    private SimpleTimer textTimer = new SimpleTimer();
+     
+    private MouseInfo mouse;
     public void act() 
     {
-        question(correctChoice);
+        openChest();
+        breakChest();
+        removeText();
+        clickLock();
+         
+        mouse = Greenfoot.getMouseInfo();
     }
-    
-    void question(char _correctChoice)
+     
+    void openChest()
     {
-        if(zDown != Greenfoot.isKeyDown("z"))
+        List<Hero> heroList = getObjectsInRange(70, Hero.class);
+        if(getWorld().getObjects(Enemy.class).isEmpty() && !heroList.isEmpty() && openChest)
         {
-            List<Hero> hero = getObjectsInRange(100, Hero.class);
-            zDown = !zDown;
-            if(zDown && !hero.isEmpty())
+            if(Greenfoot.isKeyDown("z"))
             {
-                System.out.println("true");
-                drawWindow(question, answerA, answerB, answerC, answerD);
+                addLocks();
+                openChest = false;             
             }
         }
     }
-    
-    void drawWindow(String _question, String ansA, String ansB, String ansC, String ansD)
+     
+    public void addLocks()
     {
-        GreenfootImage background = new GreenfootImage(windowWidth, windowsHeight);
-        background.drawRect(getWorld().getWidth()/2, getWorld().getHeight()/2, windowWidth, windowsHeight);
-        background.setColor(Color.WHITE);
-        background.fillRect(getWorld().getWidth()/2, getWorld().getHeight()/2, windowWidth, windowsHeight);
-        setImage(background);
+        int locks = 6;
+        int goodLockPlace = Greenfoot.getRandomNumber(locks);
+        for(int i = 0; i < locks; i++)
+        {
+            int x = Dungeon1.WIDTH/2 - 120 + 60*i;
+            if(i == goodLockPlace)
+            {
+                getWorld().addObject(new GoodLock(), x, Dungeon1.HEIGHT/2);
+            }
+            else
+            {
+                getWorld().addObject(new WrongLock(), x, Dungeon1.HEIGHT/2);
+            }
+        }
+    }
+     
+    void breakChest()
+    {
+        if(noChoices <= 0)
+        {
+            addText("Ai ramas fara incercari.Incuietoarea s-a stricat.");
+            getWorld().removeObjects(getWorld().getObjects(WrongLock.class));
+            getWorld().removeObjects(getWorld().getObjects(GoodLock.class));
+        }
+    }
+     
+    void clickLock()
+    {
+        if (mouse != null)
+        {
+            int click = mouse.getButton();
+            if(mouse.getActor() instanceof WrongLock && click == 1)
+            {
+                wrongLock();
+                getWorld().removeObject(mouse.getActor());
+            }
+            else if(mouse.getActor() instanceof GoodLock && click == 1)
+            {
+                chestReward();
+                getWorld().removeObjects(getWorld().getObjects(WrongLock.class));
+                getWorld().removeObject(mouse.getActor());
+            }
+        }
+    }
+     
+    void wrongLock()
+    {
+        noChoices--;
+        if(noChoices > 0)
+        {
+            addText("Ai gresit lacatul.Incercari ramase: " + noChoices);
+        }
+    }
+     
+    void chestReward()
+    {
+        int reward = Greenfoot.getRandomNumber(7);
+        Hero hero = Dungeon1.hero;
+        switch(reward)
+        {
+            case 0:
+                int bonusHealth = Greenfoot.getRandomNumber(20);
+                hero.setHealth(hero.getHealth() + bonusHealth);
+                addText("Ai primit " + bonusHealth + " puncte de viata");
+                break;
+                 
+            case 1:
+                hero.setDamage(hero.getDamage() + Greenfoot.getRandomNumber(10));
+                addText("Atacul a crescut la " + hero.getDamage());
+                break;
+                 
+            case 2:
+                Arrow.setDamage(Arrow.getDamage() + Greenfoot.getRandomNumber(10));
+                addText("Atacul la distanta a crescut la " + Arrow.getDamage());
+                break;
+                 
+            case 3:
+                hero.setAttackCooldown(hero.getAttackCooldown() - Greenfoot.getRandomNumber(30));
+                addText("Viteza de atac a crescut");
+                break;
+            case 5:
+             
+            case 6:
+                addText("Ai deschis cufarul, dar nu ai gasit nimic.");
+                break;
+        }
+    }
+     
+    void addText(String _text)
+    {
+        if(text != null)
+        {
+            getWorld().removeObject(text);
+        }
+        text = new Label(_text, 30);
+        getWorld().addObject(text, Dungeon1.WIDTH/2, 60);
+        textTimer.mark();
+    }
+      
+    void removeText()
+    {
+        if (text != null && textTimer.millisElapsed() > 1500)
+        {
+            getWorld().removeObject(text);
+            text = null;
+        }
     }
 }

@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.List;
 /**
  * Write a description of class Enemy here.
  * 
@@ -14,7 +14,10 @@ public class Enemy extends Character
     protected int attackRange;
     protected int attackCooldown;
     protected int randMoveCounter = 0;
-    protected Hero hero;
+    protected Hero hero = Dungeon1.hero;
+    
+    private static final int rEnemyXp = 6;
+    private static final int cEnemyXp = 4;
     
     void checkLife()
     {
@@ -22,15 +25,33 @@ public class Enemy extends Character
         {
             World world = getWorld();
             world.removeObject(this);
+            if(this.getClass() == RangeEnemy.class)
+            {
+                hero.addXp(rEnemyXp);
+            }
+            else if(this.getClass() == CloseEnemy.class)
+            {
+                hero.addXp(cEnemyXp);
+            }
         }
     }
     
     void randomMove()
     {
         //Sistemul schimba locatia inamicilor intr-o directie aleatorie si la un timp aleatoriu
-        if(Greenfoot.getRandomNumber(5000) < 5)
+        if(this instanceof Boss)
         {
-            randomMove = true;
+            if(Greenfoot.getRandomNumber(1500) < 10)
+            {
+                randomMove = true;
+            }
+        }
+        else
+        {
+            if(Greenfoot.getRandomNumber(2700) < 5)
+            {
+                randomMove = true;
+            }
         }
         if(randomMove)
         {
@@ -51,9 +72,9 @@ public class Enemy extends Character
         }
     }
     
-    void Collision()
+    void collision()
     {
-        if(this.isTouching(Wall.class) || this.isTouching(Chest.class))
+        if(this.isTouching(Wall.class))
         {
             turn(180);
             move(speed);
@@ -78,30 +99,6 @@ public class Enemy extends Character
                 move(speed);
             }
         }
-    }
-    
-    void enemyCollision()
-    {
-        // Actor up = getOneObjectAtOffset(0, -10, Enemy.class);
-        // Actor down = getOneObjectAtOffset(0, 10, Enemy.class);
-        // Actor right = getOneObjectAtOffset(10, 0, Enemy.class);
-        // Actor left = getOneObjectAtOffset(-10, 0, Enemy.class);
-        // if(up != null)
-        // {
-            // setLocation(getX(), getY() + speed);
-        // }
-        // if(down != null)
-        // {
-            // setLocation(getX(), getY() - speed);
-        // }
-        // if(right != null)
-        // {
-            // setLocation(getX() - speed, getY());
-        // }
-        // if(left != null)
-        // {
-            // setLocation(getX() + speed, getY());
-        // }
     }
     
     int getDistanceX(int enemyX, int heroX)
