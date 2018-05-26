@@ -1,4 +1,3 @@
 # greenfoot-school-adventurer
-A 2D RPG game made in Greenfoot with Java
-
-For playing go to https://goo.gl/gXFSKc and download de images archive and put them in the images folder of the game.
+Un joc 2D creat in Java folosind platforma Greenfoot
+Pentru a juca descarcati alaturi de repository arhiva de sprite-uri folosind link-ul https://goo.gl/gXFSKc sau jucati online pe pagina http://www.greenfoot.org/scenarios/20949
